@@ -1,28 +1,59 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <Header logo="Welcome to Your Vue.js App"/>
+    <!-- <pre>{{cart}}</pre> -->
+    <b-container fluid>
+      <b-row>
+        <b-col>
+          <h3>Products list</h3>
+          <p>Add products to cart</p>
+          <Products v-on:onCartUpdated="onCartUpdated"></Products>
+        </b-col>
+        <b-col cols="4">
+          <h3>Your cart</h3>
+          <p>Ready to buy</p>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Header from "./components/header.vue";
+import Products from "./components/products";
 export default {
-  name: 'app',
+  name: "app",
+  data: function() {
+    return {
+      cart: []
+    };
+  },
+  methods: {
+    onCartUpdated(item, action) {
+      if (action == "add") this.cart.push(item);
+      else {
+        const index = this.cart.indexOf(item);
+        if (index !== -1) {
+          this.cart.splice(index, 1);
+        }
+      }
+    }
+  },
   components: {
-    HelloWorld
+    Header,
+    Products
   }
-}
+};
 </script>
 
 <style>
-#app {
+/* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-</style>
+} */
+</style> 
