@@ -13,6 +13,7 @@
         <b-col cols="4">
           <h3>Your cart</h3>
           <p>Ready to buy</p>
+           <Cart v-bind:cartList="cart" v-on:onCartUpdated="onCartUpdated"></Cart>
         </b-col>
       </b-row>
     </b-container>
@@ -22,16 +23,23 @@
 <script>
 import Header from "./components/header.vue";
 import Products from "./components/products";
+import Cart from "./components/Cart"
 export default {
   name: "app",
   data: function() {
     return {
-      cart: []
+      cart:[]
     };
   },
   methods: {
     onCartUpdated(item, action) {
-      if (action == "add") this.cart.push(item);
+      if (action == "add") {
+        item.qty = 1;
+        item.amount = item.price;
+        // Vue.set(item,'qty',1)
+        // Vue.set(item,'amount',item.price)
+        this.cart.push(item);
+      }
       else {
         const index = this.cart.indexOf(item);
         if (index !== -1) {
@@ -42,7 +50,8 @@ export default {
   },
   components: {
     Header,
-    Products
+    Products,
+    Cart
   }
 };
 </script>
